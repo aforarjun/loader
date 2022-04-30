@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            width: 100%;
+            background-color: #fff;
+            display: grid;
+        }
+        .container{
+            width: 190px;
+            height: 190px;
+            margin: auto;
+            position: relative;
+            margin-top: 100px;
+        }
+        .line{
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+            position: absolute;
+            transition: all 1.6s ease;
+        }
+        .top_left{
+            left: 0;
+            top: 0;
+            background-color: red;
+        }
+        .top_right{
+            right: 0;
+            top: 0;
+            background-color: yellow;
+        }
+        .bottom_left{
+            bottom: 0;
+            left: 0;
+            background-color: green;
+        }
+        .bottom_right{
+            bottom: 0;
+            right: 0;
+            background-color: blue;
+        }
+        .btn-box{
+            max-width: 200px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: auto;
+            margin-top: 80px;
+        }
+        .btn{
+            font-size: 16px;
+            line-height: 20px;
+            font-weight: 500;
+            border-radius: 3px;
+            cursor: pointer;
+            padding: 8px 20px;
+        }
+
+        @keyframes hr_motion {
+            from{
+                width: 50px;
+            }
+            to{
+                width: 100%;
+            }
+        }
+        @keyframes vr_motion {
+            from{
+                height: 50px;
+            }
+            to{
+                height: 100%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <section class="container">
+        <div class="line top_left"></div>
+        <div class="line top_right"></div>
+        <div class="line bottom_left"></div>
+        <div class="line bottom_right"></div>
+    </section>
+    <section class="btn-box">
+        <button class="btn" id="play">Play</button>
+        <button class="btn" id="pause">Stop</button>
+    </section>
+
+    <script>
+        window.onload = () =>{
+            class Animation{
+                constructor(){
+                    this.colors = ['red', 'yellow', 'blue', 'green'];
+                    this.topLeft = document.querySelector('.top_left');
+                    this.topRight = document.querySelector('.top_right');
+                    this.bottomLeft = document.querySelector('.bottom_left');
+                    this.bottomRight = document.querySelector('.bottom_right');
+    
+                    this.play = document.getElementById('play');
+                    this.pause = document.getElementById('pause');
+    
+                    this.events();
+                }
+                events(){
+                    this.play.addEventListener('click', this.playFunc);
+                    this.pause.addEventListener('click', this.pauseFunc);
+                }
+
+                playFunc = () =>{
+                    console.log('play')
+                    this.topLeft.style.animation = 'hr_motion 1.3s ease-in 0.4s infinite alternate';
+                    this.topRight.style.animation = 'vr_motion 1.3s ease-in 0.4s infinite alternate';
+                    this.bottomLeft.style.animation = 'vr_motion 1.3s ease-in 0.4s infinite alternate';
+                    this.bottomRight.style.animation = 'hr_motion 1.3s ease-in 0.4s infinite alternate';
+
+                    this.colorFunc(this.topLeft, 0);
+                    this.colorFunc(this.topRight, 1);
+                    this.colorFunc(this.bottomRight, 2);
+                    this.colorFunc(this.bottomLeft, 3);
+                }
+
+                pauseFunc = () =>{
+                    console.log('pause')
+                    this.topLeft.style.animation = '';
+                    this.topRight.style.animation = '';
+                    this.bottomLeft.style.animation = '';
+                    this.bottomRight.style.animation = '';
+                }
+
+                colorFunc(element, i){
+                    element.style.backgroundColor = this.colors[i];
+
+                    setTimeout(()=>{
+                        element.style.backgroundColor = this.colors[i++];
+
+                        if(i > 3){
+                            i = 0;
+                            this.colorFunc(element, i);
+                            console.log('changed')
+                        }
+
+                        this.colorFunc(element, i++);
+                    }, 2600);
+                }
+            }
+
+            const animation = new Animation();
+
+        }
+
+
+    </script>
+</body>
+</html>
+
+
